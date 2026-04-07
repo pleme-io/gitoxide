@@ -119,6 +119,7 @@ impl ObjectId {
             ObjectId::Sha1(_) => Kind::Sha1,
             #[cfg(feature = "sha256")]
             ObjectId::Sha256(_) => Kind::Sha256,
+            _ => unreachable!(),
         }
     }
     /// Return the raw byte slice representing this hash.
@@ -129,6 +130,7 @@ impl ObjectId {
             Self::Sha1(b) => b.as_ref(),
             #[cfg(feature = "sha256")]
             Self::Sha256(b) => b.as_ref(),
+            _ => unreachable!(),
         }
     }
     /// Return the raw mutable byte slice representing this hash.
@@ -139,6 +141,7 @@ impl ObjectId {
             Self::Sha1(b) => b.as_mut(),
             #[cfg(feature = "sha256")]
             Self::Sha256(b) => b.as_mut(),
+            _ => unreachable!(),
         }
     }
 
@@ -150,6 +153,7 @@ impl ObjectId {
             Kind::Sha1 => ObjectId::Sha1(*EMPTY_BLOB_SHA1),
             #[cfg(feature = "sha256")]
             Kind::Sha256 => ObjectId::Sha256(*EMPTY_BLOB_SHA256),
+            _ => unreachable!(),
         }
     }
 
@@ -161,6 +165,7 @@ impl ObjectId {
             Kind::Sha1 => ObjectId::Sha1(*EMPTY_TREE_SHA1),
             #[cfg(feature = "sha256")]
             Kind::Sha256 => ObjectId::Sha256(*EMPTY_TREE_SHA256),
+            _ => unreachable!(),
         }
     }
 
@@ -173,6 +178,7 @@ impl ObjectId {
             Kind::Sha1 => Self::null_sha1(),
             #[cfg(feature = "sha256")]
             Kind::Sha256 => Self::null_sha256(),
+            _ => unreachable!(),
         }
     }
 
@@ -185,6 +191,7 @@ impl ObjectId {
             ObjectId::Sha1(digest) => &digest[..] == oid::null_sha1().as_bytes(),
             #[cfg(feature = "sha256")]
             ObjectId::Sha256(digest) => &digest[..] == oid::null_sha256().as_bytes(),
+            _ => unreachable!(),
         }
     }
 
@@ -277,6 +284,7 @@ impl std::fmt::Debug for ObjectId {
             ObjectId::Sha1(_hash) => f.write_str("Sha1(")?,
             #[cfg(feature = "sha256")]
             ObjectId::Sha256(_) => f.write_str("Sha256(")?,
+            _ => unreachable!(),
         }
         for b in self.as_bytes() {
             write!(f, "{b:02x}")?;
@@ -306,6 +314,7 @@ impl From<&oid> for ObjectId {
             Kind::Sha1 => ObjectId::from_20_bytes(v.as_bytes()),
             #[cfg(feature = "sha256")]
             Kind::Sha256 => ObjectId::from_32_bytes(v.as_bytes()),
+            _ => unreachable!(),
         }
     }
 }

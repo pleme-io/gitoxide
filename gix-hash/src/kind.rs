@@ -43,6 +43,7 @@ impl std::fmt::Display for Kind {
             Kind::Sha1 => f.write_str("sha1"),
             #[cfg(feature = "sha256")]
             Kind::Sha256 => f.write_str("sha256"),
+            _ => unreachable!(),
         }
     }
 }
@@ -59,6 +60,10 @@ impl Kind {
         {
             Self::Sha1
         }
+        #[cfg(all(not(feature = "sha1"), not(feature = "sha256")))]
+        {
+            panic!("at least one of `sha1` or `sha256` features must be enabled")
+        }
     }
 
     /// Returns the longest hash we support.
@@ -71,6 +76,10 @@ impl Kind {
         #[cfg(all(not(feature = "sha256"), feature = "sha1"))]
         {
             Self::Sha1
+        }
+        #[cfg(all(not(feature = "sha1"), not(feature = "sha256")))]
+        {
+            panic!("at least one of `sha1` or `sha256` features must be enabled")
         }
     }
 
@@ -94,6 +103,7 @@ impl Kind {
             Kind::Sha1 => SIZE_OF_SHA1_HEX_DIGEST,
             #[cfg(feature = "sha256")]
             Kind::Sha256 => SIZE_OF_SHA256_HEX_DIGEST,
+            _ => unreachable!(),
         }
     }
 
@@ -105,6 +115,7 @@ impl Kind {
             Kind::Sha1 => SIZE_OF_SHA1_DIGEST,
             #[cfg(feature = "sha256")]
             Kind::Sha256 => SIZE_OF_SHA256_DIGEST,
+            _ => unreachable!(),
         }
     }
 
@@ -149,6 +160,7 @@ impl Kind {
             Kind::Sha1 => oid::null_sha1(),
             #[cfg(feature = "sha256")]
             Kind::Sha256 => oid::null_sha256(),
+            _ => unreachable!(),
         }
     }
 
@@ -160,6 +172,7 @@ impl Kind {
             Kind::Sha1 => ObjectId::null_sha1(),
             #[cfg(feature = "sha256")]
             Kind::Sha256 => ObjectId::null_sha256(),
+            _ => unreachable!(),
         }
     }
 
@@ -189,6 +202,10 @@ impl Kind {
         #[cfg(all(feature = "sha1", feature = "sha256"))]
         {
             &[Self::Sha1, Self::Sha256]
+        }
+        #[cfg(all(not(feature = "sha1"), not(feature = "sha256")))]
+        {
+            &[]
         }
     }
 }

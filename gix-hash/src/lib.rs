@@ -90,18 +90,30 @@ const EMPTY_BLOB_SHA256: &[u8; SIZE_OF_SHA256_DIGEST] = b"\x47\x3a\x0f\x4c\x3b\x
 const EMPTY_TREE_SHA256: &[u8; SIZE_OF_SHA256_DIGEST] = b"\x6e\xf1\x9b\x41\x22\x5c\x53\x69\xf1\xc1\x04\xd4\x5d\x8d\x85\xef\xa9\xb0\x57\xb5\x3b\x14\xb4\xb9\xb9\x39\xdd\x74\xde\xcc\x53\x21";
 
 /// Denotes the kind of function to produce a [`ObjectId`].
-#[derive(Default, PartialEq, Eq, Debug, Hash, Ord, PartialOrd, Clone, Copy)]
+#[derive(PartialEq, Eq, Debug, Hash, Ord, PartialOrd, Clone, Copy)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[non_exhaustive]
 pub enum Kind {
     /// The SHA1 hash with 160 bits.
-    #[cfg_attr(feature = "sha1", default)]
     #[cfg(feature = "sha1")]
     Sha1 = 1,
     /// The SHA256 hash with 256 bits.
-    #[cfg_attr(all(not(feature = "sha1"), feature = "sha256"), default)]
     #[cfg(feature = "sha256")]
     Sha256 = 2,
+}
+
+#[cfg(feature = "sha1")]
+impl Default for Kind {
+    fn default() -> Self {
+        Kind::Sha1
+    }
+}
+
+#[cfg(all(not(feature = "sha1"), feature = "sha256"))]
+impl Default for Kind {
+    fn default() -> Self {
+        Kind::Sha256
+    }
 }
 
 mod kind;

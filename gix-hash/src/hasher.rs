@@ -54,6 +54,7 @@ pub(super) mod _impl {
                 Hasher::Sha1(sha1) => sha1.update(bytes),
                 #[cfg(feature = "sha256")]
                 Hasher::Sha256(sha256) => sha256.update(bytes),
+                _ => unreachable!(),
             }
         }
 
@@ -89,6 +90,7 @@ pub(super) mod _impl {
                 },
                 #[cfg(feature = "sha256")]
                 Hasher::Sha256(sha256) => Ok(crate::ObjectId::Sha256(sha256.finalize().into())),
+                _ => unreachable!(),
             }
         }
     }
@@ -101,6 +103,7 @@ pub(super) mod _impl {
             crate::Kind::Sha1 => Hasher::new_sha1(),
             #[cfg(feature = "sha256")]
             crate::Kind::Sha256 => Hasher::new_sha256(),
+            _ => unreachable!(),
         }
     }
 }

@@ -66,6 +66,7 @@ impl std::fmt::Debug for oid {
                 Kind::Sha1 => "Sha1",
                 #[cfg(feature = "sha256")]
                 Kind::Sha256 => "Sha256",
+                _ => unreachable!(),
             },
             self.to_hex(),
         )
@@ -187,6 +188,7 @@ impl oid {
             Kind::Sha1 => &self.bytes == oid::null_sha1().as_bytes(),
             #[cfg(feature = "sha256")]
             Kind::Sha256 => &self.bytes == oid::null_sha256().as_bytes(),
+            _ => unreachable!(),
         }
     }
 
@@ -198,6 +200,7 @@ impl oid {
             Kind::Sha1 => &self.bytes == oid::empty_blob_sha1().as_bytes(),
             #[cfg(feature = "sha256")]
             Kind::Sha256 => &self.bytes == oid::empty_blob_sha256().as_bytes(),
+            _ => unreachable!(),
         }
     }
 
@@ -209,6 +212,7 @@ impl oid {
             Kind::Sha1 => &self.bytes == oid::empty_tree_sha1().as_bytes(),
             #[cfg(feature = "sha256")]
             Kind::Sha256 => &self.bytes == oid::empty_tree_sha256().as_bytes(),
+            _ => unreachable!(),
         }
     }
 }
@@ -281,6 +285,7 @@ impl ToOwned for oid {
             Kind::Sha1 => ObjectId::Sha1(self.bytes.try_into().expect("no bug in hash detection")),
             #[cfg(feature = "sha256")]
             Kind::Sha256 => ObjectId::Sha256(self.bytes.try_into().expect("no bug in hash detection")),
+            _ => unreachable!(),
         }
     }
 }
