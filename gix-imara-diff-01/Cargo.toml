@@ -1,5 +1,5 @@
 [package]
-name = "imara-diff"
+name = "gix-imara-diff-01"
 version = "0.1.8"
 edition = "2021"
 authors = ["pascalkuthe <pascalkuthe@pm.me>"]
@@ -24,10 +24,7 @@ default = ["unified_diff"]
 unified_diff = []
 
 [dev-dependencies]
-# criterion = "0.4.0"
 expect-test = "1.4.0"
-# git-repository = "0.25.0"
-# similar = { version = "2.2.0", features = ["bytes"] }
 
 [profile.release]
 debug = true
